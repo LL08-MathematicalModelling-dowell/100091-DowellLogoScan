@@ -1,1 +1,0 @@
-# 100091-DowellLogoScan
