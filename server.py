@@ -23,7 +23,7 @@ app.secret_key = "secret key"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
-# Initialize connection with MongoDB
+######################### Initialize connection with MongoDB ###########################
 client = MongoClient("mongodb://localhost:27017/")
 
 # Create database and collections
