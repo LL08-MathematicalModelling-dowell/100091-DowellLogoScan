@@ -67,15 +67,16 @@ fe1 = FeatureExtractor()
 @app.route('/upload_image', methods=['GET', 'POST'])
 def upload_image():
     if request.method == 'POST':
-        # Get uploaded image file
+        # Get uploaded image file, filename and extension
         image_file = request.files['image']
-
+        filename = image_file.filename
+        extension = filename.rsplit('.', 1)[1].upper()
         # Open the image using PIL
         image = Image.open(image_file)
 
         # Convert image to BytesIO object
         image_io = BytesIO()
-        image.save(image_io, format='JPEG')
+        image.save(image_io, format=extension)
         image_io.seek(0)
 
         # Store image in MongoDB using GridFS
@@ -85,12 +86,11 @@ def upload_image():
         feature = fe1.extract(img=image)
 
         # Store feature in MongoDB
-        feature_collection.insert_one(
-            {'image_id': image_id, 'feature': feature.tolist()})
+        feature_collection.insert_one({'image_id': image_id, 'feature': feature.tolist()})
 
         return 'Image uploaded and features extracted successfully!'
 
-    return render_template('upload_image.html')
+    return render_template('upload.html')
 
 
 ######################### get image with url #########################
@@ -116,7 +116,6 @@ def allowed_file(filename):
 ######################### uploading videos #########################
 
 
-
 # Define Flask route for uploading videos and processing frames
 
 @app.route('/upload', methods=['POST'])
@@ -126,14 +125,17 @@ def upload_video():
         return redirect(request.url)
 
     file = request.files['file']
+    filename = file.filename
 
-    if file.filename == '':
+    if not filename:
         flash('No video selected for uploading')
         return redirect(request.url)
+    # Get file extension
+    extension = filename.rsplit('.', 1)[1].upper()
 
     if file and allowed_file(file.filename):
         # Save the video file to MongoDB using GridFS
-        video_id = fs.put(file, filename=file.filename)
+        video_id = fs.put(file, filename=file.filename, extension=extension)
         flash('Video successfully uploaded and processed')
 
         # Retrieve the video file from MongoDB using GridFS
@@ -170,12 +172,9 @@ def upload_video():
 ######################### uploading videos #########################
 
 
-
-
-
 ######################### uploading videos #########################
 
-# # Define Flask route for uploading videos and processing frames
+# Define Flask route for uploading videos and processing frames
 # @app.route('/upload', methods=['POST'])
 # def upload_video():
 #     if 'file' not in request.files:
@@ -231,7 +230,7 @@ def upload_video():
 #         flash('Allowed video types are mp4')
 #         return redirect(request.url)
 
-########################################################################
+#########################################################
 
 # Define Flask route for uploading videos and processing frames
 
@@ -282,7 +281,7 @@ def upload_video():
 #         flash('Allowed video types are mp4')
 #         return redirect(request.url)
 
-########################################################################
+###########################################################
 
 
 @app.route('/display/<filename>')
