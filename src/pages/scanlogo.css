@@ -1,0 +1,58 @@
+/* video::-webkit-media-controls-play-button {
+  display:none
+} */
+
+video::-webkit-media-controls-volume-slider {
+  display: none;
+}
+
+video::-webkit-media-controls-mute-button {
+  display: none;
+}
+
+video::-webkit-media-controls-timeline {
+  display: none;
+}
+video {
+  width: 100%;
+  height: 100%;
+}
+.video-container {
+  margin: 0 auto;
+  width: fit-content;
+  border: 2px solid black;
+  background-color: rgb(82, 82, 82);
+  height: fit-content;
+}
+@media screen and (max-width: 650px) {
+  .scan-container {
+    width: 100vw;
+    margin: 0 auto;
+    height: 70vh;
+  }
+}
+select#shapes {
+  width: 20vw;
+  color: rgb(67, 67, 67);
+}
+.view-container {
+  width: 400px;
+  height: 300px;
+}
+.mask {
+  border: 3px dashed rgb(203, 203, 203);
+  position: absolute;
+  top: 25%;
+  left: 25%;
+}
+.mask:hover {
+  cursor: pointer;
+}
+button.btn {
+  display: block;
+  width: fit-content;
+  margin: 10px 0;
+}
+.axis-center {
+  color: rgb(203, 203, 203);
+}
